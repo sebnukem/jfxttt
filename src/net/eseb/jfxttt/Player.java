@@ -2,6 +2,10 @@ package net.eseb.jfxttt;
 
 import java.util.Arrays;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+
 public enum Player
 {
 	NONE(null),
@@ -22,7 +26,7 @@ public enum Player
 	public String getSymbol() {
 		return symbol;
 	}
-
+	
 	public static Player find(String asymbol) {
 		if (asymbol == null) return NONE;
 		for (Player p : values())

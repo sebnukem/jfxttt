@@ -11,6 +11,7 @@ import javafx.stage.StageStyle;
 
 public class Controller
 {
+	@SuppressWarnings("unused")
 	private Main application;
 	private Stage stage;
 	private Scene scene;

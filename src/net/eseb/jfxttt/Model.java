@@ -16,10 +16,13 @@ public class Model
 	}
 
 	public void reset() {
-		for (int r = 0; r < BOARD_SIZE; r++)
-			for (int c = 0; c < BOARD_SIZE; c++)
+		for (int r = 0; r < BOARD_SIZE; r++) {
+//			for (int c = 0; c < BOARD_SIZE; c++)
 //				board[r][c] = new SimpleObjectProperty<>(Player.NONE);
-				board[r][c] = new Piece();
+				board[r][0] = new Piece(Player.O);
+				board[r][1] = new Piece(Player.X);
+				board[r][2] = new Piece(Player.O);
+		}
 	}
 
 	public static void main(String[] args) {
