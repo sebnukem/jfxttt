@@ -87,7 +87,7 @@ public class E1 extends Application {
     private char token = ' ';
 
     public Cell() {
-      setStyle("-fx-border-color: black"); 
+      setStyle("-fx-border-color: #cccccc"); 
       this.setPrefSize(2000, 2000);
       this.setOnMouseClicked(e -> handleMouseClick());
     }
