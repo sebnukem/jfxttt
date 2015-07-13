@@ -45,10 +45,9 @@ public class Controller
 		
 		model = new Model();
 		model.reset();
-		
-		//for (int r = 0; r < 3; r++)
-//		      for (int c = 0; c < 3; c++)
-		    	  //grid.add(model.getPiece(r,c) = new Cell(), j, i);
+		for (int r = 0; r < 3; r++)
+			for (int c = 0; c < 3; c++)
+				grid.add(model.getPiece(r,c), c, r);
 	}
 
 	public static void main(String[] args) {
