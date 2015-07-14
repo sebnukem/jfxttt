@@ -13,17 +13,40 @@ import javafx.scene.shape.Line;
 public class Piece extends StackPane
 {
 //	private ObjectProperty<Player> owner = new SimpleObjectProperty<>(Player.NONE);
+	private static Controller controller;
 	private Player owner;
+	private boolean winning = false;
 
 	public Piece() {
 		this(Player.NONE);
 	}
-	public Piece(Player anowner) {
-		owner = anowner;
+	public Piece(Player owner) {
+		this.owner = owner;
+		winning = false;
 		getStyleClass().add("tile");
 		setPrefSize(9999, 9999);
 
+//		Light.Distant light = new Light.Distant(-135, 45, Color.WHITE);
+//		light.setAzimuth(-135);
+//		light.setElevation(45);
+//		Lighting l = new Lighting(light);
+//		setEffect(l);
+
 		paint();
+
+		this.setOnMouseClicked(e -> controller.onCellClicked(this));
+	}
+
+	public static void setController(Controller acontroller) {
+		controller = acontroller;
+	}
+
+	public boolean isOccupied() {
+		return owner != Player.NONE;
+	}
+	
+	public boolean sameOwner(Piece o) {
+		return owner == o.owner;
 	}
 
 	public Player getOwner() {
@@ -34,17 +57,22 @@ public class Piece extends StackPane
 	public void setOwner(Player anowner) {
 //		owner.set(anowner);
 		owner = anowner;
+		paint();
 	}
 
-	public Piece paint() {
-		// TODO make pad, strokeWidth stage size dependent
-		Light.Distant light = new Light.Distant(-135, 45, Color.WHITE);
-		light.setAzimuth(-135);
-		light.setElevation(45);
-		Lighting l = new Lighting(light);
-		setEffect(l);
+	public Piece setWinning() {
+		winning = true;
+		getStyleClass().add("winning_tile");
+		paint();
+		return this;
+	}
 
+	private Piece paint() {
+		// TODO make pad, strokeWidth stage size dependent
 		int pad = 16;
+
+		this.getChildren().clear();
+
 		if (owner == Player.X) {
 			Line line1 = new Line(pad, pad, this.getWidth() - pad, this.getHeight() - pad);
 			line1.setStrokeWidth(10.0);

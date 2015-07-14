@@ -16,13 +16,13 @@ public class Controller
 	private Stage stage;
 	private Scene scene;
 	private Model model;
-	
+
 	@FXML private Parent root;
 
 	@FXML private GridPane grid;
-	
+
 	@FXML private Button close_button;
-	
+
 	@FXML public void onCloseButtonClicked(ActionEvent e) throws Exception {
 		System.out.println("Close button clicked");
 		stage.close();
@@ -36,19 +36,25 @@ public class Controller
 	@FXML public void initialize() {
 		System.out.println("Controller.initialize()");
 
-		scene = new Scene(root, 600, 600);
+		scene = new Scene(root, 500, 525);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		stage.setScene(scene);
+		stage.setMinWidth(120);
+		stage.setMinHeight(145);
 		stage.setTitle("JFX TTT");
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.show();
-		
-		model = new Model();
+
+		model = new Model(this);
 		model.reset();
-		for (int r = 0; r < 3; r++)
-			for (int c = 0; c < 3; c++)
+		for (int r = 0; r < model.BOARD_SIZE; r++)
+			for (int c = 0; c < model.BOARD_SIZE; c++)
 				grid.add(model.getPiece(r,c), c, r);
+	}
+
+	public void onCellClicked(Piece piece) {
+		model.play1(piece);
 	}
 
 	public static void main(String[] args) {
