@@ -10,7 +10,7 @@ public class Model
 
 	public Controller controller;
 
-	public Piece[] board = new Piece[BOARD_SIZE * BOARD_SIZE];
+	public Piece[] board = new Piece[BOARD_SIZE * BOARD_SIZE]; // FIXME create Board class
 
 	public Player[] players = new Player[] {
 		Player.X,
@@ -144,8 +144,10 @@ public class Model
 		if (player == null || player == Player.NONE) return;
 		player.setInputer(player.isAI() ? null : ai);
 		button.setText("" + player + ": " + player.getType());
-		wait_on_input = false;
-		play();
+		if (wait_on_input) {
+			wait_on_input = false;
+			play();
+		}
 	}
 	
 	public static Piece[] isWon(Piece[] board) {

@@ -4,11 +4,11 @@ public class Human implements Inputer
 {
 	Model model;
 	public static String type = "Human";
-	
+
 	public Human(Model model) {
 		this.model = model;
 	}
-	
+
 	@Override
 	public String getType() {
 		return type;
@@ -18,5 +18,4 @@ public class Human implements Inputer
 	public int mkAMove(Player as_player) {
 		throw new IllegalStateException("can't play.");
 	}
-
 }

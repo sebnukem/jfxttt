@@ -96,7 +96,7 @@ public class Controller
 		case "x": case "X": // switch player X type
 			model.switchPlayerType(player_x_button, Player.X);
 			break;
-		case "o": case "O": // swtich player O type
+		case "o": case "O": // switch player O type
 			model.switchPlayerType(player_o_button, Player.O);
 			break;
 		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": // cell move
