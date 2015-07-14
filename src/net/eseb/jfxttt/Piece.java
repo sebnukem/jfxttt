@@ -1,10 +1,5 @@
 package net.eseb.jfxttt;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -12,10 +7,9 @@ import javafx.scene.shape.Line;
 
 public class Piece extends StackPane
 {
-//	private ObjectProperty<Player> owner = new SimpleObjectProperty<>(Player.NONE);
 	private static Controller controller;
 	private Player owner;
-	private boolean winning = false;
+	private boolean winning;
 
 	public Piece() {
 		this(Player.NONE);
@@ -50,19 +44,18 @@ public class Piece extends StackPane
 	}
 
 	public Player getOwner() {
-//		return owner.get();
 		return owner;
 	}
 
-	public void setOwner(Player anowner) {
-//		owner.set(anowner);
+	public Piece setOwner(Player anowner) {
 		owner = anowner;
 		paint();
+		return this;
 	}
 
-	public Piece setWinning() {
-		winning = true;
-		getStyleClass().add("winning_tile");
+	public Piece setWinning(boolean win) {
+		winning = win;
+		if (winning) getStyleClass().add("winning_tile"); else getStyleClass().remove("winning_tile");
 		paint();
 		return this;
 	}

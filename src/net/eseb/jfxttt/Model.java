@@ -47,10 +47,10 @@ public class Model
 
 	public void reset() {
 		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
-			Piece p = new Piece();
-			p.setOwner(Player.NONE);
-			setPiece(i, p);
+			if (getPiece(i) == null) setPiece(i, new Piece());
+			getPiece(i).setOwner(Player.NONE).setWinning(false);
 		}
+		done = false;
 		System.out.println(this);
 	}
 
@@ -66,11 +66,18 @@ public class Model
 			Player winner = winning_pieces[0].getOwner();
 			System.out.println(winner + " won!");
 			controller.setStatus(winner + " won!");
-			for (Piece p : winning_pieces) p.setWinning();
-
+			for (Piece p : winning_pieces) p.setWinning(true);
 			done = true;
 			return;
 		}
+		
+		if (isComplete()) {
+			System.out.println("It's a draw!");
+			controller.setStatus("It's a draw!");
+			done = true;
+			return;
+		}
+		
 		getNextPlayer();
 	}
 
@@ -80,6 +87,7 @@ public class Model
 
 	public Player getNextPlayer() {
 		current_player_index = (current_player_index + 1) % players.length;
+		controller.setStatus(getCurrentPlayer() + "'s turn");
 		return getCurrentPlayer();
 	}
 	
@@ -111,8 +119,22 @@ public class Model
 		}
 		return list;
 	}
+	
+	public boolean isComplete() {
+		return moveCount() == BOARD_SIZE * BOARD_SIZE;
+	}
 
-
+	public int moveCount() {
+		return (int)Arrays.stream(board).filter(p -> p.isOccupied()).count();
+	}
+	
 	public static void main(String[] args) {
+		Model m = new Model(null);
+		m.reset();
+		m.getPiece(0).setOwner(Player.X);
+		m.getPiece(3).setOwner(Player.X);
+		m.getPiece(6).setOwner(Player.O);
+		System.out.println(" moveCount " + m.moveCount());
+		System.out.println("dmoveCount " + m.moveCount());
 	}
 }
