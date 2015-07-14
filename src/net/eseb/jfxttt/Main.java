@@ -1,11 +1,9 @@
 package net.eseb.jfxttt;
 	
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -13,7 +11,6 @@ public class Main extends Application
 	@Override
 	public void start(Stage stage) {
 		try {
-			
 			System.out.println("Main.start()");
 			FXMLLoader fxml_loader = new FXMLLoader();
 			fxml_loader.setLocation(getClass().getResource("Main.fxml"));
@@ -25,24 +22,16 @@ public class Main extends Application
 			Parent root = fxml_loader.load();
 			
 			Scene scene = new Scene(root, 500, 525);
+			controller.setScene(scene);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			scene.setOnKeyPressed(e -> System.out.println("key pressed: " + e.getCode()));
-//			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//	            public void handle(KeyEvent e) {
-//	            	System.out.println("key pressed: " + e.getCode());
-//	            }
-//	        });
+			scene.setOnKeyPressed(e -> controller.onSceneKeyPressed(e.getText()));
 
 			stage.setScene(scene);
 			stage.setMinWidth(120);
 			stage.setMinHeight(145);
 			stage.setTitle("JFX TTT");
 //			stage.initStyle(StageStyle.UNDECORATED);
-			
-			controller.scene = scene;
-			
 			stage.show();
-
 		} catch(Exception ex) {
 			ex.printStackTrace(); 
 		}
