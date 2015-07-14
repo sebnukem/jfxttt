@@ -5,12 +5,14 @@
 }
 
 .tile {
-	-fx-border-color: rgba(205, 205, 205, 0.3);
-	-fx-background-color: rgba(255, 255, 255, 0.2);
+	-fx-border-color: rgba(205,205,205,0.3);
+	-fx-background-color: rgba(255,255,255,0.2);
 }
 
 .tile .label {
-	-fx-text-fill: rgb(0,0,0,0.5);
+	-fx-text-fill: rgb(0,0,0,0.25);
+	-fx-font-size: 24px;
+	-fx-font-weight: bold;
 }
 
 .winning_tile {
@@ -19,11 +21,10 @@
 }
 
 .button {
-/*	-fx-background-color: #aaa;*/
 	-fx-font-weight:  bold;
 	-fx-border-radius: 0;
+	-fx-background-radius: 0;
 }
 .button:hover {
-/* 	-fx-background-color: #eee;*/
 	-fx-text-fill: #000;
 }

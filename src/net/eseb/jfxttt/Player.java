@@ -2,18 +2,14 @@ package net.eseb.jfxttt;
 
 import java.util.Arrays;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Line;
-
 public enum Player
 {
 	NONE(null),
-	X("X"),
-	O("O");
+	X("✗"),
+	O("○");
 	
 	private String symbol; // X | O
-	//private type;
+	private Inputer inputer = null; // Human by default
 
 	private Player(String asymbol) {
 		symbol = asymbol;
@@ -22,11 +18,35 @@ public enum Player
 	@Override public String toString() {
 		return symbol == null ? "no player" : "Player " + symbol;
 	}
+	
+	public Player getOpponent(Player ofplayer) {
+		if (ofplayer == null || ofplayer == Player.NONE) return null;
+		return ofplayer == Player.X ? Player.O : Player.X; 
+	}
 
 	public String getSymbol() {
 		return symbol == null ? " " : symbol;
 	}
 	
+	public Inputer getInputer() {
+		return inputer;
+	}
+	
+	public void setInputer(Inputer inputer) {
+		this.inputer = inputer;
+	}
+	
+	public String getType() {
+		return inputer == null ? "Human" : inputer.getType();
+	}
+
+	public boolean isAI() {
+		return inputer instanceof AI;
+	}
+	public boolean isHuman() {
+		return !isAI();
+	}
+
 	public static Player find(String asymbol) {
 		if (asymbol == null) return NONE;
 		for (Player p : values())

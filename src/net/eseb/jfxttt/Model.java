@@ -2,9 +2,11 @@ package net.eseb.jfxttt;
 
 import java.util.Arrays;
 
+import javafx.scene.control.Button;
+
 public class Model
 {
-	public final int BOARD_SIZE = 3; // board is always a square
+	public final static int BOARD_SIZE = 3; // board is always a square
 
 	public Controller controller;
 
@@ -15,7 +17,10 @@ public class Model
 		Player.O
 	};
 
-	private boolean done = false;
+	private AI ai = new AI(this);
+
+	private boolean game_over = false;
+	private boolean wait_on_input = false; // ready for user input
 	private int current_player_index = 0;
 
 	public Model(Controller controller) {
@@ -30,7 +35,7 @@ public class Model
 		return sb.toString();
 	}
 
-	public int rc2i(int row, int col) {
+	public static int rc2i(int row, int col) {
 		return row * BOARD_SIZE + col;
 	}
 
@@ -51,39 +56,78 @@ public class Model
 			getPiece(i).setOwner(Player.NONE).setWinning(false);
 		}
 		controller.reset_button.setDisable(true);
-		done = false;
+		game_over = false;
 		System.out.println(this);
 	}
+	
+	public void play() { // main loop
+		while (!game_over && !wait_on_input) {
+			Player current_player = getCurrentPlayer();
 
-	public void play1(Piece piece) {
-		if (done) return;
+			if (current_player.isHuman()) {
+				wait_on_input = true;
+				return;
+			}
+			wait_on_input = false;
+
+			if (current_player.isAI()) {
+				int move_index;
+				try {
+					move_index = current_player.getInputer().mkAMove(current_player);
+				} catch (Exception ex) {
+					System.out.println(ex.getMessage());
+					controller.setStatus("An error occured.");
+					game_over = true;
+					return;
+				}
+				getPiece(move_index).setOwner(current_player);
+				System.out.println(current_player + " plays " + move_index);
+			}
+
+			if (checkGameOver()) return;
+			getNextPlayer();
+		}
+	}
+
+	public void inputPlay(Piece piece) { // human input
+		if (!wait_on_input) return;
+		if (game_over) return;
 		if (piece.isOccupied()) return;
-		
-		piece.setOwner(getCurrentPlayer());
-		System.out.println(this);
 
+		piece.setOwner(getCurrentPlayer());
+		System.out.println("" + getCurrentPlayer().toString() + " plays " + piece.getIndex());
+
+		if (checkGameOver()) return;
+		getNextPlayer();
+		
+		wait_on_input = false;
+		play();
+	}
+	
+	public boolean checkGameOver() {
+		System.out.println(this);
 		controller.reset_button.setDisable(false);
 
-		Piece[] winning_pieces = isWon();
+		Piece[] winning_pieces = isWon(board);
 		if (winning_pieces != null) {
 			Player winner = winning_pieces[0].getOwner();
 			System.out.println(winner + " won!");
 			controller.setStatus(winner + " won!");
 			for (Piece p : winning_pieces) p.setWinning(true);
 			controller.reset_button.setText("Restart");
-			done = true;
-			return;
+			game_over = true;
+			return true;
 		}
-		
+
 		if (isComplete()) {
 			System.out.println("It's a draw!");
 			controller.setStatus("It's a draw!");
 			controller.reset_button.setText("Restart");
-			done = true;
-			return;
+			game_over = true;
+			return true;
 		}
-		
-		getNextPlayer();
+		game_over = false;
+		return false;
 	}
 
 	public Player getCurrentPlayer() {
@@ -96,29 +140,37 @@ public class Model
 		return getCurrentPlayer();
 	}
 	
-	public Piece[] isWon() {
+	public void switchPlayerType(Button button, Player player) {
+		if (player == null || player == Player.NONE) return;
+		player.setInputer(player.isAI() ? null : ai);
+		button.setText("" + player + ": " + player.getType());
+		wait_on_input = false;
+		play();
+	}
+	
+	public static Piece[] isWon(Piece[] board) {
 		Piece[] list;
 		// rows -
 		for (int row = 0; row < BOARD_SIZE; row++) {
-			list = checkLine(rc2i(row, 0), 1);
+			list = checkLine(board, rc2i(row, 0), 1);
 			if (list != null) return list;
 		}
 		// cols |
 		for (int col = 0; col < BOARD_SIZE; col++) {
-			list = checkLine(rc2i(0, col), BOARD_SIZE);
+			list = checkLine(board, rc2i(0, col), BOARD_SIZE);
 			if (list != null) return list;
 		}
 		// diag \
-		list = checkLine(rc2i(0, 0), BOARD_SIZE + 1);
+		list = checkLine(board, rc2i(0, 0), BOARD_SIZE + 1);
 		if (list != null) return list;
 		// diag /
-		return checkLine(rc2i(0, BOARD_SIZE - 1), BOARD_SIZE - 1);
+		return checkLine(board, rc2i(0, BOARD_SIZE - 1), BOARD_SIZE - 1);
 	}
 
-	private Piece[] checkLine(int at, int inc) {
+	private static Piece[] checkLine(Piece[] board, int at, int inc) {
 		Piece[] list = new Piece[BOARD_SIZE];
 		for (int i = at, c = 0; c < BOARD_SIZE; i += inc, c++) {
-			Piece p = getPiece(i);
+			Piece p = board[i];
 			list[c] = p;
 			if (!list[0].isOccupied() || !p.isOccupied() || !list[0].sameOwner(p)) return null;
 		}

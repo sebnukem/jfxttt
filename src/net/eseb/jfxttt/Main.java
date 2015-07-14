@@ -24,6 +24,12 @@ public class Main extends Application
 			System.out.println("load fxml");
 			Parent root = fxml_loader.load();
 
+			Light.Distant light = new Light.Distant();
+			light.setAzimuth(-135);
+			light.setElevation(75);
+			Lighting l = new Lighting(light);
+			root.setEffect(l);
+
 			Scene scene = new Scene(root, 500, 525);
 			controller.setScene(scene);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -36,18 +42,29 @@ public class Main extends Application
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
 
-			Light.Distant light = new Light.Distant();
-			light.setAzimuth(-135);
-			light.setElevation(75);
-			Lighting l = new Lighting(light);
-			root.setEffect(l);
-
+			controller.play();
 		} catch(Exception ex) {
 			ex.printStackTrace(); 
 		}
 	}
 
+//	public static String usage() {
+//		String nl = System.getProperty("line.separator");
+//		return "Tic Tac Toe usage: app [TYPE] [TYPE]" + nl + nl +
+//				"  TYPE = h | c" + nl +
+//				"        h: human player, default" + nl +
+//				"        c: AI player";
+//	}
+
 	public static void main(String[] args) {
+
+//		// Need some help?
+//		for (String arg: args) {
+//			if (arg.equals("--help") || arg.equals("-h") || arg.equals("-?")) {
+//				System.out.println(usage());
+//				return;
+//			}
+//		}
 		launch(args);
 	}
 }

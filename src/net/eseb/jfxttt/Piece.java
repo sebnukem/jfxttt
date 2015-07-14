@@ -32,6 +32,10 @@ public class Piece extends StackPane
 	public static void setController(Controller acontroller) {
 		controller = acontroller;
 	}
+	
+	public int getIndex() {
+		return index;
+	}
 
 	public boolean isOccupied() {
 		return player != Player.NONE;

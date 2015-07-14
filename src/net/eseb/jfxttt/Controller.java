@@ -24,6 +24,18 @@ public class Controller
 
 	@FXML private Label status_label;
 
+	@FXML private Button player_x_button;
+
+	@FXML public void onPlayerXButtonClicked(ActionEvent e) throws Exception {
+		model.switchPlayerType(player_x_button, Player.X);
+	}
+
+	@FXML private Button player_o_button;
+
+	@FXML public void onPlayerOButtonClicked(ActionEvent e) throws Exception {
+		model.switchPlayerType(player_o_button, Player.O);
+	}
+
 	// FIXME bind to an observable and remove the controller.reset_button.* calls from model
 	@FXML public Button reset_button;
 
@@ -48,6 +60,7 @@ public class Controller
 		System.out.println("Controller.initialize()");
 
 		model = new Model(this);
+
 		reset();
 		for (int r = 0; r < model.BOARD_SIZE; r++)
 			for (int c = 0; c < model.BOARD_SIZE; c++)
@@ -56,8 +69,15 @@ public class Controller
 
 	public void reset() {
 		model.reset();
+		player_x_button.setText("" + Player.X + ": " + Player.X.getType());
+		player_o_button.setText("" + Player.O + ": " + Player.O.getType());
 		setStatus(model.getCurrentPlayer() + "'s turn");
 		reset_button.setText("Reset");
+		model.play();
+	}
+
+	public void play() {
+		model.play();
 	}
 
 	public void setScene(Scene scene) {
@@ -74,13 +94,13 @@ public class Controller
 			stage.close();
 			break;
 		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8":
-			model.play1(model.getPiece(Integer.parseInt(key, 10)));
+			model.inputPlay(model.getPiece(Integer.parseInt(key, 10)));
 			break;
 		}
 	}
 
 	public void onCellClicked(Piece piece) {
-		model.play1(piece);
+		model.inputPlay(piece);
 	}
 
 	public void setStatus(String s) {
