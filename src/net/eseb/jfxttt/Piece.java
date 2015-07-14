@@ -77,12 +77,12 @@ public class Piece extends StackPane
 		if (player == Player.X) {
 			Line line1 = new Line(pad, pad, this.getWidth() - pad, this.getHeight() - pad);
 			line1.setStrokeWidth(10.0);
-			line1.setStroke(new Color(0,0,1,0.8));
+			line1.setStroke(new Color(0,0,1,1));
 			line1.endXProperty().bind(this.widthProperty().subtract(pad));
 			line1.endYProperty().bind(this.heightProperty().subtract(pad));
 			Line line2 = new Line(pad, this.getHeight() - pad, this.getWidth() - pad, pad);
 			line2.setStrokeWidth(10.0);
-			line2.setStroke(new Color(0,0,1,0.8));
+			line2.setStroke(new Color(0,0,1,1));
 			line2.startYProperty().bind(this.heightProperty().subtract(pad));
 			line2.endXProperty().bind(this.widthProperty().subtract(pad));
 			this.getChildren().addAll(line1, line2);
@@ -95,7 +95,7 @@ public class Piece extends StackPane
 			ellipse.centerYProperty().bind(this.heightProperty().divide(2));
 			ellipse.radiusXProperty().bind(this.widthProperty().divide(2).subtract(pad));
 			ellipse.radiusYProperty().bind(this.heightProperty().divide(2).subtract(pad));
-			ellipse.setStroke(new Color(1,0,0,0.8));
+			ellipse.setStroke(new Color(1,0,0,1));
 			ellipse.setFill(new Color(0,0,0,0));
 			this.getChildren().add(ellipse);
 			return this;
