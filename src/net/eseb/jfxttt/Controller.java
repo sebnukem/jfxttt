@@ -62,8 +62,8 @@ public class Controller
 		model = new Model(this);
 
 		reset();
-		for (int r = 0; r < model.BOARD_SIZE; r++)
-			for (int c = 0; c < model.BOARD_SIZE; c++)
+		for (int r = 0; r < Model.BOARD_SIZE; r++)
+			for (int c = 0; c < Model.BOARD_SIZE; c++)
 				grid.add(model.getPiece(r,c), c, r);
 	}
 
@@ -93,10 +93,17 @@ public class Controller
 		case "c": case "C": case "ESCAPE": // close
 			stage.close();
 			break;
-		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8":
+		case "x": case "X": // switch player X type
+			model.switchPlayerType(player_x_button, Player.X);
+			break;
+		case "o": case "O": // swtich player O type
+			model.switchPlayerType(player_o_button, Player.O);
+			break;
+		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": // cell move
 			model.inputPlay(model.getPiece(Integer.parseInt(key, 10)));
 			break;
 		}
+		// TODO Type h for help box with list of keys
 	}
 
 	public void onCellClicked(Piece piece) {
