@@ -37,6 +37,7 @@ public class Piece extends StackPane
 	}
 
 	public Piece paint() {
+		// TODO make pad, strokeWidth stage size dependent
 		Light.Distant light = new Light.Distant(-135, 45, Color.WHITE);
 		light.setAzimuth(-135);
 		light.setElevation(45);

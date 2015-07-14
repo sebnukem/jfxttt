@@ -36,7 +36,7 @@ public class Controller
 	@FXML public void initialize() {
 		System.out.println("Controller.initialize()");
 
-		scene = new Scene(root, 400, 400);
+		scene = new Scene(root, 600, 600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		stage.setScene(scene);
