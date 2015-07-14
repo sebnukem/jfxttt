@@ -24,7 +24,7 @@ public enum Player
 	}
 
 	public String getSymbol() {
-		return symbol;
+		return symbol == null ? " " : symbol;
 	}
 	
 	public static Player find(String asymbol) {

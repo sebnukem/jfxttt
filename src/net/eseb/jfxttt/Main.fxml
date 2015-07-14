@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +10,16 @@
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="close_button" mnemonicParsing="false" onAction="#onCloseButtonClicked" prefHeight="25.0" prefWidth="2000.0" text="Close" />
+            <Label fx:id="status_label" prefHeight="25.0" prefWidth="9999.0">
+               <padding>
+                  <Insets left="6.0" right="6.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="reset_button" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onResetButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Reset" />
+            <Button fx:id="close_button" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onCloseButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Close" />
          </children>
       </HBox>
    </bottom>

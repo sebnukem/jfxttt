@@ -13,3 +13,13 @@
 	-fx-border-color: rgb(255,255,255);
 	-fx-background-color: #FFFFFF;
 }
+
+.button {
+	-Xfx-background-color: #aaa;
+	-fx-font-weight:  bold;
+	-fx-border-radius: 0;
+}
+.button:hover {
+	-Xfx-background-color: #eee;
+	-fx-text-fill: #000;
+}

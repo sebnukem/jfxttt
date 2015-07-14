@@ -2,12 +2,9 @@ package net.eseb.jfxttt;
 
 import java.util.Arrays;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
 public class Model
 {
-	public final int BOARD_SIZE = 3;
+	public final int BOARD_SIZE = 3; // board is always a square
 
 	public Controller controller;
 
@@ -26,6 +23,13 @@ public class Model
 		Piece.setController(controller);
 	}
 
+	@Override public String toString() {
+		StringBuilder sb = new StringBuilder("[");
+		for (Piece p : board) sb.append(p.getOwner().getSymbol());
+		sb.append("]");
+		return sb.toString();
+	}
+
 	public int rc2i(int row, int col) {
 		return row * BOARD_SIZE + col;
 	}
@@ -42,21 +46,29 @@ public class Model
 	}
 
 	public void reset() {
-		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
-			setPiece(i, new Piece());
+		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
+			Piece p = new Piece();
+			p.setOwner(Player.NONE);
+			setPiece(i, p);
+		}
+		System.out.println(this);
 	}
 
 	public void play1(Piece piece) {
 		if (done) return;
 		if (piece.isOccupied()) return;
+		
 		piece.setOwner(getCurrentPlayer());
+		System.out.println(this);
 
 		Piece[] winning_pieces = isWon();
 		if (winning_pieces != null) {
-			done = true;
 			Player winner = winning_pieces[0].getOwner();
 			System.out.println(winner + " won!");
+			controller.setStatus(winner + " won!");
 			for (Piece p : winning_pieces) p.setWinning();
+
+			done = true;
 			return;
 		}
 		getNextPlayer();

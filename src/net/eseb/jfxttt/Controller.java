@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,6 +21,15 @@ public class Controller
 	@FXML private Parent root;
 
 	@FXML private GridPane grid;
+
+	@FXML private Label status_label;
+
+	@FXML private Button reset_button;
+
+	@FXML public void onResetButtonClicked(ActionEvent e) throws Exception {
+		System.out.println("Reset button clicked");
+		reset();
+	}
 
 	@FXML private Button close_button;
 
@@ -47,14 +57,24 @@ public class Controller
 		stage.show();
 
 		model = new Model(this);
+		reset();
+	}
+	
+	public void reset() {
 		model.reset();
+		grid.getChildren().clear();
 		for (int r = 0; r < model.BOARD_SIZE; r++)
 			for (int c = 0; c < model.BOARD_SIZE; c++)
 				grid.add(model.getPiece(r,c), c, r);
+		setStatus("");
 	}
 
 	public void onCellClicked(Piece piece) {
 		model.play1(piece);
+	}
+
+	public void setStatus(String s) {
+		status_label.setText(s);
 	}
 
 	public static void main(String[] args) {

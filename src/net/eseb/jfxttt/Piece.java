@@ -67,11 +67,11 @@ public class Piece extends StackPane
 		return this;
 	}
 
-	private Piece paint() {
+	public Piece paint() {
 		// TODO make pad, strokeWidth stage size dependent
 		int pad = 16;
 
-		this.getChildren().clear();
+		getChildren().clear();
 
 		if (owner == Player.X) {
 			Line line1 = new Line(pad, pad, this.getWidth() - pad, this.getHeight() - pad);
