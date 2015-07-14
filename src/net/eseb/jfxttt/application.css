@@ -9,6 +9,10 @@
 	-fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
+.tile .label {
+	-fx-text-fill: rgb(0,0,0,0.5);
+}
+
 .winning_tile {
 	-fx-border-color: rgb(255,255,255,0.5);
 	-fx-background-color: #FFFFFF;

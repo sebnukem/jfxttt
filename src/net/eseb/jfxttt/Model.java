@@ -47,9 +47,10 @@ public class Model
 
 	public void reset() {
 		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
-			if (getPiece(i) == null) setPiece(i, new Piece());
+			if (getPiece(i) == null) setPiece(i, new Piece(i));
 			getPiece(i).setOwner(Player.NONE).setWinning(false);
 		}
+		controller.reset_button.setDisable(true);
 		done = false;
 		System.out.println(this);
 	}
@@ -61,12 +62,15 @@ public class Model
 		piece.setOwner(getCurrentPlayer());
 		System.out.println(this);
 
+		controller.reset_button.setDisable(false);
+
 		Piece[] winning_pieces = isWon();
 		if (winning_pieces != null) {
 			Player winner = winning_pieces[0].getOwner();
 			System.out.println(winner + " won!");
 			controller.setStatus(winner + " won!");
 			for (Piece p : winning_pieces) p.setWinning(true);
+			controller.reset_button.setText("Restart");
 			done = true;
 			return;
 		}
@@ -74,6 +78,7 @@ public class Model
 		if (isComplete()) {
 			System.out.println("It's a draw!");
 			controller.setStatus("It's a draw!");
+			controller.reset_button.setText("Restart");
 			done = true;
 			return;
 		}

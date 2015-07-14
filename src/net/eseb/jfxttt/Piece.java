@@ -1,5 +1,7 @@
 package net.eseb.jfxttt;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -8,27 +10,23 @@ import javafx.scene.shape.Line;
 public class Piece extends StackPane
 {
 	private static Controller controller;
-	private Player owner;
+	private Player player;
 	private boolean winning;
+	private int index;
 
-	public Piece() {
-		this(Player.NONE);
+	public Piece(int index) {
+		this(index, Player.NONE);
 	}
-	public Piece(Player owner) {
-		this.owner = owner;
+	public Piece(int index, Player owner) {
+		this.index = index;
+		this.player = owner;
 		winning = false;
 		getStyleClass().add("tile");
 		setPrefSize(9999, 9999);
 
-//		Light.Distant light = new Light.Distant(-135, 45, Color.WHITE);
-//		light.setAzimuth(-135);
-//		light.setElevation(45);
-//		Lighting l = new Lighting(light);
-//		setEffect(l);
-
 		paint();
 
-		this.setOnMouseClicked(e -> controller.onCellClicked(this));
+		setOnMouseClicked(e -> controller.onCellClicked(this));
 	}
 
 	public static void setController(Controller acontroller) {
@@ -36,19 +34,19 @@ public class Piece extends StackPane
 	}
 
 	public boolean isOccupied() {
-		return owner != Player.NONE;
+		return player != Player.NONE;
 	}
 	
 	public boolean sameOwner(Piece o) {
-		return owner == o.owner;
+		return player == o.player;
 	}
 
 	public Player getOwner() {
-		return owner;
+		return player;
 	}
 
-	public Piece setOwner(Player anowner) {
-		owner = anowner;
+	public Piece setOwner(Player owner) {
+		player = owner;
 		paint();
 		return this;
 	}
@@ -65,8 +63,14 @@ public class Piece extends StackPane
 		int pad = 16;
 
 		getChildren().clear();
-
-		if (owner == Player.X) {
+		
+		if (player == Player.NONE) {
+			Label ci = new Label("" + index);
+			Piece.setAlignment(ci, Pos.BOTTOM_CENTER);
+			this.getChildren().add(ci);
+			return this;
+		}
+		if (player == Player.X) {
 			Line line1 = new Line(pad, pad, this.getWidth() - pad, this.getHeight() - pad);
 			line1.setStrokeWidth(10.0);
 			line1.setStroke(new Color(0,0,1,0.8));
@@ -80,7 +84,7 @@ public class Piece extends StackPane
 			this.getChildren().addAll(line1, line2);
 			return this;
 		}
-		if (owner == Player.O) {
+		if (player == Player.O) {
 			Ellipse ellipse = new Ellipse(this.getWidth() / 2, this.getHeight() / 2, this.getWidth() / 2 - pad, this.getHeight() / 2 - pad);
 			ellipse.setStrokeWidth(10.0);
 			ellipse.centerXProperty().bind(this.widthProperty().divide(2));

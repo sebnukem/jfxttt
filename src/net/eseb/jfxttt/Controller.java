@@ -24,7 +24,8 @@ public class Controller
 
 	@FXML private Label status_label;
 
-	@FXML private Button reset_button;
+	// FIXME bind to an observable and remove the controller.reset_button.* calls from model
+	@FXML public Button reset_button;
 
 	@FXML public void onResetButtonClicked(ActionEvent e) throws Exception {
 		System.out.println("Reset button clicked");
@@ -56,6 +57,7 @@ public class Controller
 	public void reset() {
 		model.reset();
 		setStatus(model.getCurrentPlayer() + "'s turn");
+		reset_button.setText("Reset");
 	}
 
 	public void setScene(Scene scene) {
@@ -70,6 +72,9 @@ public class Controller
 			break;
 		case "c": case "C": case "ESCAPE": // close
 			stage.close();
+			break;
+		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8":
+			model.play1(model.getPiece(Integer.parseInt(key, 10)));
 			break;
 		}
 	}
