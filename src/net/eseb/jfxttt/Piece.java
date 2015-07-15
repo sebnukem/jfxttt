@@ -70,7 +70,7 @@ public class Piece extends StackPane
 
 		if (player == Player.NONE) {
 			Label ci = new Label("" + index);
-			Piece.setAlignment(ci, Pos.BOTTOM_CENTER);
+			Piece.setAlignment(ci, Pos.CENTER);
 			this.getChildren().add(ci);
 			return this;
 		}

@@ -35,12 +35,12 @@ public class Main extends Application
 			scene.setOnKeyPressed(e -> controller.onSceneKeyPressed(e.getText()));
 
 			stage.setScene(scene);
-			stage.setMinWidth(120);
-			stage.setMinHeight(145);
+			stage.setMinWidth(180);
+			stage.setMinHeight(240);
 			stage.setTitle("JFX TTT");
 //			stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
- 
+
 			controller.play();
 		} catch(Exception ex) {
 			ex.printStackTrace(); 
