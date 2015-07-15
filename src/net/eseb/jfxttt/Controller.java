@@ -122,7 +122,7 @@ public class Controller
 	public void onCellClicked(Piece piece) {
 		model.inputPlay(piece);
 	}
-	
+
 	public void updateGameStatus() {
 		reset_button.setDisable(model.getBoard().moveCount() == 0);
 

@@ -35,7 +35,7 @@ public class Model
 
 	public void reset() {
 		board.reset();
-		controller.reset_button.setDisable(true);
+		disableReset(true);
 		current_player_index = 0;
 		game_over = false;
 		System.out.println(this);
@@ -63,6 +63,7 @@ public class Model
 				}
 
 				move.setOwner(current_player, false);
+				disableReset(false);
 				checkGameOver();
 
 				// UI updates
@@ -90,7 +91,9 @@ public class Model
 		if (piece.isOccupied()) return;
 
 		piece.setOwner(getCurrentPlayer(), true);
-		System.out.println("" + getCurrentPlayer().toString() + " plays " + piece.getIndex());
+		System.out.println("" + getCurrentPlayer() + " plays " + piece.getIndex());
+
+		disableReset(false);
 
 		if (checkGameOver()) {
 			controller.updateGameStatus();
@@ -130,6 +133,10 @@ public class Model
 
 	public void setStatus(String s) {
 		Platform.runLater(() -> controller.setStatus(s));
+	}
+
+	public void disableReset(boolean disable) {
+		Platform.runLater(() -> controller.reset_button.setDisable(disable));
 	}
 
 	public static void main(String[] args) {
