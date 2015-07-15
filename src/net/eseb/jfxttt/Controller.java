@@ -61,6 +61,13 @@ public class Controller
 	@FXML public void initialize() {
 		System.out.println("Controller.initialize()");
 
+		// make buttons react to Enter key press when in focus
+		player_x_button.defaultButtonProperty().bind(player_x_button.focusedProperty());
+		player_o_button.defaultButtonProperty().bind(player_o_button.focusedProperty());
+		reset_button.defaultButtonProperty().bind(reset_button.focusedProperty());
+		close_button.defaultButtonProperty().bind(close_button.focusedProperty());
+		help_button.defaultButtonProperty().bind(help_button.focusedProperty());
+
 		model = new Model(this);
 
 		reset();

@@ -40,7 +40,7 @@ public class Main extends Application
 			stage.setTitle("JFX TTT");
 //			stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
-
+ 
 			controller.play();
 		} catch(Exception ex) {
 			ex.printStackTrace(); 

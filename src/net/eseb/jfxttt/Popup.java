@@ -1,5 +1,6 @@
 package net.eseb.jfxttt;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -14,14 +15,15 @@ public class Popup
 		Scene scene = new Scene(layout);
 
 		Label label = new Label(message);
+		layout.setPadding(new Insets(20,20,20,20));
 		layout.getChildren().add(label);
 
 		scene.setOnKeyPressed(e -> window.close());
 		scene.setOnMouseClicked(e -> window.close());
 
 		window.setScene(scene);
-		window.setMinWidth(200);
-		window.setMinHeight(120);
+		window.sizeToScene();
+		window.setResizable(false);
 		if (title != null) window.setTitle(title);
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.show();
