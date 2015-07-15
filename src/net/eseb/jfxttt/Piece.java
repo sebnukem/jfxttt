@@ -32,7 +32,7 @@ public class Piece extends StackPane
 	public static void setController(Controller acontroller) {
 		controller = acontroller;
 	}
-	
+
 	public int getIndex() {
 		return index;
 	}
@@ -40,7 +40,7 @@ public class Piece extends StackPane
 	public boolean isOccupied() {
 		return player != Player.NONE;
 	}
-	
+
 	public boolean sameOwner(Piece o) {
 		return player == o.player;
 	}

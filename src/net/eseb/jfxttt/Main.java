@@ -18,7 +18,7 @@ public class Main extends Application
 			FXMLLoader fxml_loader = new FXMLLoader();
 			fxml_loader.setLocation(getClass().getResource("Main.fxml"));
 			System.out.println("instantiate controller");
-			Controller controller = new Controller(this, stage);
+			Controller controller = new Controller(stage);
 			System.out.println("bind controller");
 			fxml_loader.setController(controller);
 			System.out.println("load fxml");
@@ -31,7 +31,6 @@ public class Main extends Application
 			root.setEffect(l);
 
 			Scene scene = new Scene(root, 500, 525);
-			controller.setScene(scene);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			scene.setOnKeyPressed(e -> controller.onSceneKeyPressed(e.getText()));
 

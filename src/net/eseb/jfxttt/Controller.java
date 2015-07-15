@@ -3,7 +3,6 @@ package net.eseb.jfxttt;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -11,11 +10,7 @@ import javafx.stage.Stage;
 
 public class Controller
 {
-	@SuppressWarnings("unused")
-	private Main application;
 	private Stage stage;
-	@SuppressWarnings("unused")
-	private Scene scene;
 	private Model model;
 
 	@FXML private Parent root;
@@ -50,21 +45,22 @@ public class Controller
 		System.out.println("Close button clicked");
 		stage.close();
 	}
-	 
-	public Controller(Main app, Stage astage) {
-		application = app;
+ 
+	public Controller(Stage astage) {
 		stage = astage;
 	}
 
+	@SuppressWarnings("static-access")
 	@FXML public void initialize() {
 		System.out.println("Controller.initialize()");
 
 		model = new Model(this);
 
 		reset();
-		for (int r = 0; r < Model.BOARD_SIZE; r++)
-			for (int c = 0; c < Model.BOARD_SIZE; c++)
-				grid.add(model.getPiece(r,c), c, r);
+
+		for (int r = 0; r < model.getBoard().BOARD_SIZE; r++)
+			for (int c = 0; c < model.getBoard().BOARD_SIZE; c++)
+				grid.add(model.getBoard().getPiece(r,c), c, r);
 	}
 
 	public void reset() {
@@ -78,10 +74,6 @@ public class Controller
 
 	public void play() {
 		model.play();
-	}
-
-	public void setScene(Scene scene) {
-		this.scene = scene;
 	}
 
 	public void onSceneKeyPressed(String key) {
@@ -100,7 +92,7 @@ public class Controller
 			model.switchPlayerType(player_o_button, Player.O);
 			break;
 		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": // cell move
-			model.inputPlay(model.getPiece(Integer.parseInt(key, 10)));
+			model.inputPlay(model.getBoard().getPiece(Integer.parseInt(key, 10)));
 			break;
 		}
 		// TODO Type h for help box with list of keys
