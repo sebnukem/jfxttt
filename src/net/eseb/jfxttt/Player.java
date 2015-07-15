@@ -9,7 +9,7 @@ public enum Player
 	O("○");
 	
 	private String symbol; // X | O
-	private Inputer inputer = null; // Human by default
+	private Inputer inputer = null; // Human by default // Strategy pattern
 
 	private Player(String asymbol) {
 		symbol = asymbol;
