@@ -30,7 +30,7 @@ public class Main extends Application
 			Lighting l = new Lighting(light);
 			root.setEffect(l);
 
-			Scene scene = new Scene(root, 500, 525);
+			Scene scene = new Scene(root, 400, 450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			scene.setOnKeyPressed(e -> controller.onSceneKeyPressed(e.getText()));
 
