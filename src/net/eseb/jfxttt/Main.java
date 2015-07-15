@@ -9,6 +9,8 @@ import javafx.scene.effect.Lighting;
 import javafx.stage.Stage;
 //import javafx.stage.StageStyle;
 
+// TODO implement i18n 
+
 public class Main extends Application
 {
 	@Override

@@ -1,5 +1,7 @@
 package net.eseb.jfxttt;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -18,6 +20,7 @@ public class Controller
 	@FXML private GridPane grid;
 
 	@FXML private Label status_label;
+	private StringProperty status_text = new SimpleStringProperty();
 
 	@FXML private Button player_x_button;
 
@@ -60,6 +63,8 @@ public class Controller
 	@SuppressWarnings("static-access")
 	@FXML public void initialize() {
 		System.out.println("Controller.initialize()");
+
+		status_label.textProperty().bind(status_text);
 
 		// make buttons react to Enter key press when in focus
 		player_x_button.defaultButtonProperty().bind(player_x_button.focusedProperty());
@@ -138,7 +143,8 @@ public class Controller
 	}
 
 	public void setStatus(String s) {
-		status_label.setText(s);
+		//status_label.setText(s);
+		status_text.setValue(s);
 	}
 
 	private void getHelp() {

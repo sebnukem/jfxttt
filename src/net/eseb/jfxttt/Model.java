@@ -57,7 +57,7 @@ public class Model
 					System.out.println(current_player + " plays " + move.getIndex());
 				} catch (Exception ex) {
 					System.out.println(ex.getMessage());
-					controller.setStatus("An error occured.");
+					setStatus("An error occured.");
 					game_over = true;
 					return;
 				}
@@ -117,7 +117,7 @@ public class Model
 
 	public Player getNextPlayer() {
 		current_player_index = (current_player_index + 1) % players.length;
-		Platform.runLater(() -> controller.setStatus(getCurrentPlayer() + "'s turn"));
+		setStatus(getCurrentPlayer() + "'s turn");
 		return getCurrentPlayer();
 	}
 
@@ -126,6 +126,10 @@ public class Model
 		player.setInputer(player.isAI() ? null : ai);
 		button.setText("" + player + ": " + player.getType());
 		if (player.isAI()) play();
+	}
+
+	public void setStatus(String s) {
+		Platform.runLater(() -> controller.setStatus(s));
 	}
 
 	public static void main(String[] args) {
