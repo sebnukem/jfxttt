@@ -87,7 +87,7 @@ public class Controller
 		player_x_button.setText("" + Player.X + ": " + Player.X.getType());
 		player_o_button.setText("" + Player.O + ": " + Player.O.getType());
 		setStatus(model.getCurrentPlayer() + "'s turn");
-		reset_button.setText("Reset");
+		reset_button.setDisable(true);
 		model.play();
 	}
 
@@ -124,21 +124,20 @@ public class Controller
 	}
 
 	public void updateGameStatus() {
-		reset_button.setDisable(model.getBoard().moveCount() == 0);
-
+		reset_button.setDisable(false);
 		Piece[] winning_pieces = model.getBoard().isWon();
 		if (winning_pieces != null) {
 			Player winner = winning_pieces[0].getOwner();
 			System.out.println(winner + " won!");
-			setStatus(winner + " won!");
 			for (Piece p : winning_pieces) p.setWinning(true);
-			reset_button.setText("Restart");
+			setStatus(winner + " won!");
+			return;
 		}
 
 		if (model.getBoard().isComplete()) {
 			System.out.println("It's a draw!");
 			setStatus("It's a draw!");
-			reset_button.setText("Restart");
+			return;
 		}
 	}
 

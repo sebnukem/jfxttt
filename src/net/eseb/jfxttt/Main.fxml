@@ -58,7 +58,7 @@
                   <Insets left="6.0" right="6.0" />
                </padding>
             </Label>
-            <Button fx:id="reset_button" mnemonicParsing="false" onAction="#onResetButtonClicked" prefWidth="9999.0" text="Reset" GridPane.columnIndex="1">
+            <Button fx:id="reset_button" mnemonicParsing="false" onAction="#onResetButtonClicked" prefWidth="9999.0" text="Restart" GridPane.columnIndex="1">
                <tooltip>
                   <Tooltip text="Restart" />
                </tooltip></Button>
