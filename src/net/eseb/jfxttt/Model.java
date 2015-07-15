@@ -40,6 +40,7 @@ public class Model
 		System.out.println(this);
 	}
 
+	// FIXME this loop is blocking!
 	public void play() { // main loop
 		System.out.println("play");
 		while (!game_over && !wait_on_input) {
