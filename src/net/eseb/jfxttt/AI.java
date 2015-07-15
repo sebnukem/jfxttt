@@ -19,7 +19,7 @@ public class AI implements Inputer
 
 	@Override
 	public Piece mkAMove(Player as_player) {
-		Board board = new Board(model.getBoard());
+		Board board = model.getBoard();
 
 		// look for a winning move
 		for (Piece p : board.getBoard()) {

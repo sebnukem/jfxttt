@@ -13,7 +13,8 @@ public class Board
 	}
 
 	public Board(Board aboard) {
-		board = aboard.board.clone(); // FIXME is it, really?
+		board = new Piece[BOARD_SIZE * BOARD_SIZE];
+		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) setPiece(i, new Piece(i, aboard.getPiece(i).getOwner()));
 	}
 
 	@Override public String toString() {
