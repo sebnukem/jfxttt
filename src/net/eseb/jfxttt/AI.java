@@ -18,21 +18,21 @@ public class AI implements Inputer
 	}
 
 	@Override
-	public int mkAMove(Player as_player) {
+	public Piece mkAMove(Player as_player) {
 		Board board = new Board(model.getBoard());
 
 		// look for a winning move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
 			p.setOwner(as_player);
-			if (board.isWon() != null) return p.getIndex(); // FIXME return piece
+			if (board.isWon() != null) return p;
 			p.setOwner(Player.NONE);
 		}
-		// look for non-loosing move
+		// look for non-losing move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
 			p.setOwner(as_player.getOpponent(as_player));
-			if (board.isWon() != null) return p.getIndex(); // FIXME return piece
+			if (board.isWon() != null) return p;
 			p.setOwner(Player.NONE);
 		}
 		// random move
@@ -40,7 +40,7 @@ public class AI implements Inputer
 		int index = rand.nextInt(board.getLength());
 		while (--watchdog > 0) {
 			Piece p = board.getPiece(index);
-			if (!p.isOccupied()) return index;
+			if (!p.isOccupied()) return p;
 			index = (index + 1) % board.getLength();
 		}
 		throw new IllegalStateException("can not play.");

@@ -45,7 +45,14 @@ public class Controller
 		System.out.println("Close button clicked");
 		stage.close();
 	}
- 
+
+	@FXML private Button help_button;
+
+	@FXML public void onHelpButtonClicked(ActionEvent e) throws Exception {
+		System.out.println("Help button clicked");
+		getHelp();
+	}
+
 	public Controller(Stage astage) {
 		stage = astage;
 	}
@@ -94,6 +101,9 @@ public class Controller
 		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": // cell move
 			model.inputPlay(model.getBoard().getPiece(Integer.parseInt(key, 10)));
 			break;
+		case "?": case "h": case "H":
+			getHelp();
+			break;
 		}
 		// TODO Type h for help box with list of keys
 	}
@@ -104,6 +114,15 @@ public class Controller
 
 	public void setStatus(String s) {
 		status_label.setText(s);
+	}
+
+	private void getHelp() {
+		Popup.pop("Keys", "0..8:  Play cell\n"
+			+ "R:  Reset/Restart\n"
+			+ "C, Esc:  Close\n"
+			+ "X:  Switch player " + Player.X.getSymbol() + " type\n"
+			+ "O:  Switch player " + Player.O.getSymbol() + " type\n"
+		);
 	}
 
 	public static void main(String[] args) {

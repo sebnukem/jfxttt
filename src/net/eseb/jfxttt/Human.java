@@ -15,7 +15,7 @@ public class Human implements Inputer
 	}
 
 	@Override
-	public int mkAMove(Player as_player) {
+	public Piece mkAMove(Player as_player) {
 		throw new IllegalStateException("can't play.");
 	}
 }

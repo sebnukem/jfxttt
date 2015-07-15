@@ -54,6 +54,7 @@
             </Label>
             <Button fx:id="reset_button" mnemonicParsing="false" onAction="#onResetButtonClicked" prefWidth="9999.0" text="Reset" GridPane.columnIndex="1" />
             <Button fx:id="close_button" mnemonicParsing="false" onAction="#onCloseButtonClicked" prefWidth="9999.0" text="Close" GridPane.columnIndex="2" />
+            <Button fx:id="help_button" mnemonicParsing="false" onAction="#onHelpButtonClicked" text="?" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
          </children>
       </GridPane>
    </bottom>

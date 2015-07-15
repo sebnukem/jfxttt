@@ -47,6 +47,11 @@ public enum Player
 		return !isAI();
 	}
 
+	public Piece mkAMove() {
+		if (inputer == null) return null;
+		return inputer.mkAMove(this);
+	}
+
 	public static Player find(String asymbol) {
 		if (asymbol == null) return NONE;
 		for (Player p : values())

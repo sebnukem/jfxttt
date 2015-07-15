@@ -1,16 +1,11 @@
 package net.eseb.jfxttt;
 
-import java.util.Arrays;
-
 import javafx.scene.control.Button;
 
 public class Model
 {
-//	public final static int BOARD_SIZE = 3; // board is always a square
-
 	public Controller controller;
 
-//	public Piece[] board = new Piece[BOARD_SIZE * BOARD_SIZE]; // FIXME create Board class
 	public Board board;
 
 	public Player[] players = new Player[] {
@@ -34,58 +29,39 @@ public class Model
 		return board.toString();
 	}
 
-//	public static int rc2i(int row, int col) {
-//		return row * BOARD_SIZE + col;
-//	}
-
-//	public Piece getPiece(int row, int col) {
-//		return getPiece(rc2i(row, col));
-//	}
-//	public Piece getPiece(int index) {
-//		return board[index];
-//	}
-//
-//	public Piece setPiece(int index, Piece piece) {
-//		return board[index] = piece;
-//	}
-	
 	public Board getBoard() {
 		return board;
 	}
 
 	public void reset() {
-//		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++) {
-//			if (getPiece(i) == null) setPiece(i, new Piece(i));
-//			getPiece(i).setOwner(Player.NONE).setWinning(false);
-//		}
 		board.reset();
 		controller.reset_button.setDisable(true);
 		game_over = false;
 		System.out.println(this);
 	}
-	
+
 	public void play() { // main loop
 		while (!game_over && !wait_on_input) {
 			Player current_player = getCurrentPlayer();
 
 			if (current_player.isHuman()) {
-				wait_on_input = true; // FIXME move this to Human
+				wait_on_input = true;
 				return;
 			}
 			wait_on_input = false;
 
 			if (current_player.isAI()) {
-				int move_index;
+				Piece move;
 				try {
-					move_index = current_player.getInputer().mkAMove(current_player);
+					move = current_player.mkAMove();
 				} catch (Exception ex) {
 					System.out.println(ex.getMessage());
 					controller.setStatus("An error occured.");
 					game_over = true;
 					return;
 				}
-				board.getPiece(move_index).setOwner(current_player);
-				System.out.println(current_player + " plays " + move_index);
+				move.setOwner(current_player);
+				System.out.println(current_player + " plays " + move.getIndex());
 			}
 
 			if (checkGameOver()) return;

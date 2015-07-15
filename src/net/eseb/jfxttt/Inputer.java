@@ -4,5 +4,5 @@ public interface Inputer
 {
 	public String getType();
 
-	public int mkAMove(Player as_player);
+	public Piece mkAMove(Player as_player);
 }
