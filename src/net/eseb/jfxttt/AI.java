@@ -19,20 +19,26 @@ public class AI implements Inputer
 
 	@Override
 	public Piece mkAMove(Player as_player) {
-		Board board = model.getBoard();
+		Board board = model.getBoard(); // using actual board so it needs to be left pristine when returning
 
 		// look for a winning move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
 			p.setOwner(as_player, false);
-			if (board.isWon() != null) return p;
+			if (board.isWon() != null) {
+				p.setOwner(Player.NONE, false);
+				return delayed(p);
+			}
 			p.setOwner(Player.NONE, false);
 		}
 		// look for non-losing move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
 			p.setOwner(as_player.getOpponent(as_player), false);
-			if (board.isWon() != null) return p;
+			if (board.isWon() != null) {
+				p.setOwner(Player.NONE, false);
+				return delayed(p);
+			}
 			p.setOwner(Player.NONE, false);
 		}
 		// random move
@@ -40,9 +46,20 @@ public class AI implements Inputer
 		int index = rand.nextInt(board.getLength());
 		while (--watchdog > 0) {
 			Piece p = board.getPiece(index);
-			if (!p.isOccupied()) return p;
+			if (!p.isOccupied()) {
+				return delayed(p);
+			}
 			index = (index + 1) % board.getLength();
 		}
 		throw new IllegalStateException("can not play.");
+	}
+	
+	private Piece delayed(Piece o){
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// noop
+		}
+		return o;
 	}
 }

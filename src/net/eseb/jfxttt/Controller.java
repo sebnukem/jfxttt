@@ -43,7 +43,7 @@ public class Controller
 
 	@FXML public void onCloseButtonClicked(ActionEvent e) throws Exception {
 		System.out.println("Close button clicked");
-		stage.close();
+		close();
 	}
 
 	@FXML private Button help_button;
@@ -97,7 +97,7 @@ public class Controller
 			reset();
 			break;
 		case "c": case "C": case "ESCAPE": // close
-			stage.close();
+			close();
 			break;
 		case "x": case "X": // switch player X type
 			model.switchPlayerType(player_x_button, Player.X);
@@ -117,6 +117,25 @@ public class Controller
 	public void onCellClicked(Piece piece) {
 		model.inputPlay(piece);
 	}
+	
+	public void updateGameStatus() {
+		reset_button.setDisable(model.getBoard().moveCount() == 0);
+
+		Piece[] winning_pieces = model.getBoard().isWon();
+		if (winning_pieces != null) {
+			Player winner = winning_pieces[0].getOwner();
+			System.out.println(winner + " won!");
+			setStatus(winner + " won!");
+			for (Piece p : winning_pieces) p.setWinning(true);
+			reset_button.setText("Restart");
+		}
+
+		if (model.getBoard().isComplete()) {
+			System.out.println("It's a draw!");
+			setStatus("It's a draw!");
+			reset_button.setText("Restart");
+		}
+	}
 
 	public void setStatus(String s) {
 		status_label.setText(s);
@@ -130,6 +149,11 @@ public class Controller
 			+ "O:  Switch player " + Player.O.getSymbol() + " type\n"
 			+ "0..8:  Play cell\n"
 		);
+	}
+	
+	private void close() {
+		model.endGame(); // exit possible AI loop
+		stage.close();
 	}
 
 	public static void main(String[] args) {

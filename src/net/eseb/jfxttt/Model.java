@@ -1,5 +1,6 @@
 package net.eseb.jfxttt;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 
 public class Model
@@ -16,7 +17,6 @@ public class Model
 	private AI ai = new AI(this);
 
 	private boolean game_over = false;
-	private boolean wait_on_input = false; // ready for user input
 	private int current_player_index = 0;
 
 	public Model(Controller controller) {
@@ -36,81 +36,79 @@ public class Model
 	public void reset() {
 		board.reset();
 		controller.reset_button.setDisable(true);
+		current_player_index = 0;
 		game_over = false;
 		System.out.println(this);
 	}
 
-	// FIXME this loop is blocking!
-	public void play() { // main loop
+	public void play() { // AI loop
 		System.out.println("play");
-		while (!game_over && !wait_on_input) {
-			Player current_player = getCurrentPlayer();
 
-			if (current_player.isHuman()) {
-				wait_on_input = true;
-				return;
-			}
-			wait_on_input = false;
+		if (game_over) return;
+		if (getCurrentPlayer().isHuman()) return;
 
-			if (current_player.isAI()) {
+		Runnable task = () -> {
+			while (!game_over && getCurrentPlayer().isAI()) {
+
+				Player current_player = getCurrentPlayer();
 				Piece move;
 				try {
 					move = current_player.mkAMove();
+					System.out.println(current_player + " plays " + move.getIndex());
 				} catch (Exception ex) {
 					System.out.println(ex.getMessage());
 					controller.setStatus("An error occured.");
 					game_over = true;
 					return;
 				}
-				move.setOwner(current_player, true);
-				System.out.println(current_player + " plays " + move.getIndex());
-			}
 
-			if (checkGameOver()) return;
-			getNextPlayer();
-		}
+				move.setOwner(current_player, false);
+				checkGameOver();
+
+				// UI updates
+				//	Platform.runLater(new Runnable() {
+				//		@Override public void run() {
+				//			...
+				//		}
+				//	});
+				Platform.runLater(() -> {
+					move.paint();
+					controller.updateGameStatus();
+				});
+				
+				if (!game_over) getNextPlayer();
+			}
+		};
+		new Thread(task).start();
 	}
 
 	public void inputPlay(Piece piece) { // human input
 		System.out.println("input play");
-		if (!wait_on_input) return;
+
 		if (game_over) return;
+		if (getCurrentPlayer().isAI()) return; // AI's turn
 		if (piece.isOccupied()) return;
 
 		piece.setOwner(getCurrentPlayer(), true);
 		System.out.println("" + getCurrentPlayer().toString() + " plays " + piece.getIndex());
 
-		if (checkGameOver()) return;
-		getNextPlayer();
+		if (checkGameOver()) {
+			controller.updateGameStatus();
+			return;
+		}
 
-		wait_on_input = false;
-		play();
+		if (getNextPlayer().isAI()) play();
 	}
 
 	public boolean checkGameOver() {
 		System.out.println(this);
-		controller.reset_button.setDisable(false);
+		if (game_over) return true;
+		game_over = board.isWon() != null || board.isComplete();
+		return game_over;
+	}
 
-		Piece[] winning_pieces = board.isWon();
-		if (winning_pieces != null) {
-			Player winner = winning_pieces[0].getOwner();
-			System.out.println(winner + " won!");
-			controller.setStatus(winner + " won!");
-			for (Piece p : winning_pieces) p.setWinning(true);
-			controller.reset_button.setText("Restart");
-			game_over = true;
-			return true;
-		}
-
-		if (board.isComplete()) {
-			System.out.println("It's a draw!");
-			controller.setStatus("It's a draw!");
-			controller.reset_button.setText("Restart");
-			game_over = true;
-			return true;
-		}
-		game_over = false;
-		return false;
+	public void endGame() {
+		game_over = true;
 	}
 
 	public Player getCurrentPlayer() {
@@ -119,7 +117,7 @@ public class Model
 
 	public Player getNextPlayer() {
 		current_player_index = (current_player_index + 1) % players.length;
-		controller.setStatus(getCurrentPlayer() + "'s turn");
+		Platform.runLater(() -> controller.setStatus(getCurrentPlayer() + "'s turn"));
 		return getCurrentPlayer();
 	}
 
@@ -127,10 +125,7 @@ public class Model
 		if (player == null || player == Player.NONE) return;
 		player.setInputer(player.isAI() ? null : ai);
 		button.setText("" + player + ": " + player.getType());
-		if (wait_on_input) {
-			wait_on_input = false;
-			play();
-		}
+		if (player.isAI()) play();
 	}
 
 	public static void main(String[] args) {
