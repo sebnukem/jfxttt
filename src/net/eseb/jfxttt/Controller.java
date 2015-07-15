@@ -101,11 +101,10 @@ public class Controller
 		case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": // cell move
 			model.inputPlay(model.getBoard().getPiece(Integer.parseInt(key, 10)));
 			break;
-		case "?": case "h": case "H":
+		case "?": case "h": case "H": // help
 			getHelp();
 			break;
 		}
-		// TODO Type h for help box with list of keys
 	}
 
 	public void onCellClicked(Piece piece) {
@@ -117,11 +116,12 @@ public class Controller
 	}
 
 	private void getHelp() {
-		Popup.pop("Keys", "0..8:  Play cell\n"
+		Popup.pop("Keys", 
+			  "C, Esc:  Close\n"
 			+ "R:  Reset/Restart\n"
-			+ "C, Esc:  Close\n"
 			+ "X:  Switch player " + Player.X.getSymbol() + " type\n"
 			+ "O:  Switch player " + Player.O.getSymbol() + " type\n"
+			+ "0..8:  Play cell\n"
 		);
 	}
 
