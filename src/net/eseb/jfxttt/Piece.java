@@ -49,9 +49,9 @@ public class Piece extends StackPane
 		return player;
 	}
 
-	public Piece setOwner(Player owner) {
+	public Piece setOwner(Player owner, boolean paint) {
 		player = owner;
-		paint();
+		if (paint) paint();
 		return this;
 	}
 
@@ -67,7 +67,7 @@ public class Piece extends StackPane
 		int pad = 16;
 
 		getChildren().clear();
-		
+
 		if (player == Player.NONE) {
 			Label ci = new Label("" + index);
 			Piece.setAlignment(ci, Pos.BOTTOM_CENTER);

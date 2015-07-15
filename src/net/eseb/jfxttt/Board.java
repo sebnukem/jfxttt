@@ -33,7 +33,7 @@ public class Board
 
 	public void reset() {
 		for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
-			getPiece(i).setOwner(Player.NONE).setWinning(false);
+			getPiece(i).setOwner(Player.NONE, false).setWinning(false);
 		System.out.println(this);
 	}
 

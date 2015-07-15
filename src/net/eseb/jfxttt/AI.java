@@ -24,16 +24,16 @@ public class AI implements Inputer
 		// look for a winning move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
-			p.setOwner(as_player);
+			p.setOwner(as_player, false);
 			if (board.isWon() != null) return p;
-			p.setOwner(Player.NONE);
+			p.setOwner(Player.NONE, false);
 		}
 		// look for non-losing move
 		for (Piece p : board.getBoard()) {
 			if (p.isOccupied()) continue;
-			p.setOwner(as_player.getOpponent(as_player));
+			p.setOwner(as_player.getOpponent(as_player), false);
 			if (board.isWon() != null) return p;
-			p.setOwner(Player.NONE);
+			p.setOwner(Player.NONE, false);
 		}
 		// random move
 		int watchdog = board.getLength() + 1;

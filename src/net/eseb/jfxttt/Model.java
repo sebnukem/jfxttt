@@ -41,6 +41,7 @@ public class Model
 	}
 
 	public void play() { // main loop
+		System.out.println("play");
 		while (!game_over && !wait_on_input) {
 			Player current_player = getCurrentPlayer();
 
@@ -60,7 +61,7 @@ public class Model
 					game_over = true;
 					return;
 				}
-				move.setOwner(current_player);
+				move.setOwner(current_player, true);
 				System.out.println(current_player + " plays " + move.getIndex());
 			}
 
@@ -70,11 +71,12 @@ public class Model
 	}
 
 	public void inputPlay(Piece piece) { // human input
+		System.out.println("input play");
 		if (!wait_on_input) return;
 		if (game_over) return;
 		if (piece.isOccupied()) return;
 
-		piece.setOwner(getCurrentPlayer());
+		piece.setOwner(getCurrentPlayer(), true);
 		System.out.println("" + getCurrentPlayer().toString() + " plays " + piece.getIndex());
 
 		if (checkGameOver()) return;
