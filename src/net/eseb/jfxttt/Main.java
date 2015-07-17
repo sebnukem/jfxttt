@@ -33,7 +33,8 @@ public class Main extends Application
 			root.setEffect(l);
 
 			Scene scene = new Scene(root, 400, 450);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm()); // this doesn't work in a JAR
+			scene.getStylesheets().add("/net/eseb/jfxttt/application.css");
 			scene.setOnKeyPressed(e -> controller.onSceneKeyPressed(e.getText()));
 
 			stage.setScene(scene);
