@@ -1,0 +1,64 @@
+$ javapackager -createjar -appclass net.eseb.jfxttt.Main -srcdir bin -outdir compiled -outfile jfxttt -v -manifestAttrs "Application-Name=JFXTTT,Created-By=sebnukem,Permissions=sandbox,Codebase=http://localhost/jfxttt/"
+$ jarsigner compiled/jfxttt.jar eseb.net
+$ javapackager -deploy -appclass net.eseb.jfxttt.Main -srcdir compiled -outdir deployed -outfile index -width 400 -height 450 -name JFXTTT -v
+
+$ cat index.jnlp 
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="index.jnlp">
+  <information>
+    <title>Sample JavaFX Application</title>
+    <vendor>Unknown vendor</vendor>
+    <description>Sample JavaFX 2.0 application.</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="jfxttt.jar" size="23888" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="400" height="450" main-class="net.eseb.jfxttt.Main"  name="JFXTTT" />
+  <update check="background"/>
+</jnlp>
+
+
+__END__
+
+http://www.javaworld.com/article/2078591/open-source-tools/java-tip-deploying-javafx-apps-to-multiple-environments.html
+
+$ javapackager -createjar -appclass net.eseb.jfxttt.Main -srcdir bin -outfile x.jar
+$ jar uf x.jar icon.png
+run: $ java -jar x.jar
+
+//$ javapackager -deploy -srcdir bin -srcfiles x.jar -appclass net.eseb.jfxttt.Main -name "JavaFX 8 TicTacToe"  -title "JFX8 TicTacToe" -vendor "eseb.net" -outdir out -outfile x -width 400 -height 450
+//$ javapackager -makeall -appclass net.eseb.jfxttt.Main -name "JFXTTT" -width 400 -height 450
+
+generate a key if not already done (KEYNAME = eseb.net) (remember PASSWORD set, not recoverable):
+$ keytool -genkey -alias KEYNAME
+
+$ javapackager -createjar -appclass net.eseb.jfxttt.Main -srcdir bin -outdir compiled -outfile jfxttt -v -manifestAttrs "Application-Name=JFXTTT,Created-By=sebnukem@gmail.com,Permissions=sandbox,Codebase=*"
+
+// $ jarsigner compiled/jfxttt.jar KEYNAME
+$ javapackager -signJar -srcdir compiled -alias KEYNAME -keyStore ~/.keystore -storePass PASSWORD
+
+$ javapackager -deploy -appclass net.eseb.jfxttt.Main -srcdir compiled -outdir deployed -outfile index -width 400 -height 450 -name JFXTTT -v
+
+
+App won't run from out/x.html because it is insecure?
+Quick workaround is to whitelist "file:///" using $JDK_HOME/bin/ControlPanel 
+
+javapackager makeall's dist.jnlp:
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="dist.jnlp">
+  <information>
+    <title>Sample JavaFX Application</title>
+    <vendor>Application vendor</vendor>
+    <description>Application description</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="dist.jar" size="19395" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="400" height="450" main-class="net.eseb.jfxttt.Main"  name="JFXTTT" />
+  <update check="background"/>
+</jnlp>
+
