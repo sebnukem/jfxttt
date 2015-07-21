@@ -19,6 +19,7 @@ public class Main extends Application
 			System.out.println("Main.start()");
 			FXMLLoader fxml_loader = new FXMLLoader();
 			fxml_loader.setLocation(getClass().getResource("Main.fxml"));
+			System.out.println("FXML resource = " + getClass().getResource("Main.fxml"));
 			System.out.println("instantiate controller");
 			Controller controller = new Controller(stage);
 			System.out.println("bind controller");
