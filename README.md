@@ -5,7 +5,7 @@ The first personal project to learn JavaFX 8.
 
 ![JFX TTT screenshot](jfxttt.png "JavaFX 8 TicTacToe screenshot")
 
-## Build 
+## Webstart Build 
 
 `$ javapackager -createjar -appclass net.eseb.jfxttt.Main -srcdir bin -outdir compiled -outfile jfxttt -v -manifestAttrs "Application-Name=JFXTTT,Created-By=AUTHOR,Permissions=sandbox"`
 OR
@@ -35,4 +35,5 @@ index.jnlp:
       <update check="background"/>
     </jnlp>
 
+If the jar is self signed, the domain serving it needs to be white-listed in the Java Control Panel (accessible from `javaws -viewer`).
 
